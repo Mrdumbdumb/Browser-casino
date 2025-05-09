@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All-in-One Casino</title>
+  <style>
+    body { font-family: monospace; background: #111; color: #fff; }
+    .menu, .game-section { margin: 20px; }
+    .hidden { display: none; }
+    button, input { margin: 5px; padding: 10px; font-size: 1em; }
+    .bankroll { margin-bottom: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>🎰 Welcome to the Browser Casino 🎲</h1>
+  <div class="bankroll" id="bankroll-display"></div>
+  <div class="menu">
+    <button onclick="showGame('blackjack')">Blackjack</button>
+    <button onclick="showGame('higherlower')">Higher/Lower</button>
+    <button onclick="showGame('texas')">Texas Hold'em</button>
+    <button onclick="showGame('slots')">Slots</button>
+    <button onclick="showGame('roulette')">Roulette</button>
+    <button onclick="showGame('craps')">Craps</button>
+    <button onclick="showGame('yahtzee')">Yahtzee</button>
+    <button onclick="resetBankroll()">Reset Bankroll</button> <!-- Added Button -->
+  </div>
+  <script>
+    function resetBankroll() {
+      bankroll = 1000;
+      localStorage.setItem('bankroll', bankroll);
+      updateBankroll(0);
+    }
+  </script>
+
+  <!-- Game Containers -->
+  <div id="blackjack" class="game-section hidden"></div>
+  <div id="higherlower" class="game-section hidden"></div>
+  <div id="texas" class="game-section hidden"></div>
+  <div id="slots" class="game-section hidden"></div>
+  <div id="roulette" class="game-section hidden"></div>
+  <div id="craps" class="game-section hidden"></div>
+  <div id="yahtzee" class="game-section hidden"></div>
+
+  <script>
+    // Centralized Bankroll Management
+    let bankroll = parseInt(localStorage.getItem('bankroll')) || 1000;
+
+    function updateBankroll(amount = 0) {
+      bankroll += amount;
+      localStorage.setItem('bankroll', bankroll);
+      document.getElementById('bankroll-display').innerText = `Bankroll: $${bankroll}`;
+    }
+
+    function showGame(id) {
+      document.querySelectorAll('.game-section').forEach(div => div.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      updateBankroll(0); // Refresh bankroll display
+    }
+
+    // Initialize Bankroll Display
+    updateBankroll(0);
+  </script>
+  <script src="games/blackjack.js"></script>
+  <script src="games/higherlower.js"></script>
+  <script src="games/texas.js"></script>
+  <script src="games/slots.js"></script>
+  <script src="games/roulette.js"></script>
+  <script src="games/craps.js"></script>
+  <script src="games/yahtzee.js"></script>
+</body>
+</html>
